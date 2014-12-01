@@ -6,7 +6,7 @@
       <File FileName="SPACE\MenuScene.cs" Line="46" Column="21" />
       <File FileName="SPACE\GameScene.cs" Line="38" Column="16" />
       <File FileName="SPACE\Entity.cs" Line="33" Column="19" />
-      <File FileName="SPACE\Player.cs" Line="53" Column="11" />
+      <File FileName="SPACE\Player.cs" Line="116" Column="32" />
       <File FileName="SPACE\InputHandler.cs" Line="43" Column="36" />
     </Files>
     <Pads>

@@ -161,3 +161,7 @@ G:\GitRepo\TechAssignment-master\SPACE\SPACE\obj\Debug\app.exe
 G:\GitRepo\TechAssignment-master\SPACE\SPACE\obj\Debug\app.pdb
 C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\Spacebro2.png
 C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\Spacebro2.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\SpacebroFront.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\SpacebroSide.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\SpacebroFront.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\SpacebroSide.png
