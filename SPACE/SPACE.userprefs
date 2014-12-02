@@ -1,12 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\Player.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\GameScene.cs">
     <Files>
-      <File FileName="SPACE\AppMain.cs" Line="69" Column="32" />
+      <File FileName="SPACE\AppMain.cs" Line="39" Column="26" />
       <File FileName="SPACE\MenuScene.cs" Line="46" Column="21" />
-      <File FileName="SPACE\GameScene.cs" Line="38" Column="16" />
-      <File FileName="SPACE\Entity.cs" Line="33" Column="19" />
-      <File FileName="SPACE\Player.cs" Line="116" Column="32" />
+      <File FileName="SPACE\GameScene.cs" Line="74" Column="67" />
+      <File FileName="SPACE\Entity.cs" Line="50" Column="1" />
+      <File FileName="SPACE\Player.cs" Line="42" Column="38" />
       <File FileName="SPACE\InputHandler.cs" Line="43" Column="36" />
     </Files>
     <Pads>
@@ -15,7 +15,7 @@
           <Node name="SPACE" expanded="True">
             <Node name="References" expanded="True" />
             <Node name="textures" expanded="True" />
-            <Node name="Player.cs" selected="True" />
+            <Node name="GameScene.cs" selected="True" />
           </Node>
         </State>
       </Pad>

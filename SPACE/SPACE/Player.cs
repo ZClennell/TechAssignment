@@ -39,10 +39,10 @@ namespace SPACE
 			sprite = new SpriteUV (texInfo);
 			
 			sprite.Quad.S = texInfo.TextureSizef;
-			sprite.Position = new Vector2 (0, 0);
+			sprite.Position = new Vector2 (64.0f,64.0f);
 			
 			dirState = DirState.Still;
-			actState = ActState.Ground;
+			actState = ActState.Fall;
 			
 			xSpeed = 0.0f;
 			ySpeed = 0.0f;
@@ -55,12 +55,13 @@ namespace SPACE
 			lastGroundPos = 0.0f;
 		}
 		
-		override public void Update(float _deltaTime)
+		override public void Update(float _deltaTime, int[,] _levelData)
 		{
 			GetInput ();
 			CheckStates ();
 			CheckBoundaries();
-			sprite.Position = new Vector2(10.0f, sprite.Position.Y + ySpeed);
+			CheckLevelCollisions(_levelData);
+			
 			sprite.Position = new Vector2(sprite.Position.X + xSpeed, sprite.Position.Y + ySpeed);
 		}
 		
@@ -120,12 +121,17 @@ namespace SPACE
 				sprite.Position = new Vector2(0.0f, sprite.Position.Y);
 			}
 			
-			if(sprite.Position.Y < 0.0f)
+			if(sprite.Position.Y < 32.0f)
 			{
 				actState = ActState.Ground;
 				ySpeed = 0.0f;
-				sprite.Position = new Vector2(sprite.Position.X, 0.0f);
+				sprite.Position = new Vector2(sprite.Position.X, 32.0f);
 			}
+		}
+		
+		private void CheckLevelCollisions(int[,] _levelData)
+		{
+			
 		}
 		
 		private void Jump()

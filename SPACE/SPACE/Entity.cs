@@ -42,9 +42,8 @@ namespace SPACE
 		}
 		
 		
-		
+		public virtual void Update(float _deltaTime, int[,] levelData){}
 		public virtual void Update(float _deltaTime){}
-		
 	}
 }
 

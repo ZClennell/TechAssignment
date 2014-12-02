@@ -60,11 +60,24 @@
     <Folder Include="sfx\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="textures\bird.png" />
     <Content Include="textures\MenuScreen.png" />
     <Content Include="textures\Spacebro.png" />
     <Content Include="textures\Spacebro2.png" />
     <Content Include="textures\SpacebroFront.png" />
     <Content Include="textures\SpacebroSide.png" />
+    <Content Include="textures\Green1.png" />
+    <Content Include="textures\Green2.png" />
+    <Content Include="textures\Green3.png" />
+    <Content Include="textures\Lava.png" />
+    <Content Include="textures\LavaTop.png" />
+    <Content Include="textures\Orange1.png" />
+    <Content Include="textures\Orange2.png" />
+    <Content Include="textures\Orange3.png" />
+    <Content Include="textures\Pink1.png" />
+    <Content Include="textures\Pink2.png" />
+    <Content Include="textures\Pink3.png" />
+    <Content Include="textures\SpaceMenu.png" />
+    <Content Include="textures\Water.png" />
+    <Content Include="textures\WaterTop.png" />
   </ItemGroup>
 </Project>
