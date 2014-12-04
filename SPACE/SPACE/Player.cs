@@ -32,6 +32,12 @@ namespace SPACE
 		private float gravity;
 		private float lastGroundPos;
 		
+		////*****Hardcoded values
+		private const int cLevelWidth = 30;
+		private const int cLevelHeight = 17;
+		private const int cViewWidth = 960;
+		private const int cViewHeight = 544;
+		private const int cTileSize = 32;
 		
 		public Player ()
 		{
@@ -47,7 +53,7 @@ namespace SPACE
 			xSpeed = 0.0f;
 			ySpeed = 0.0f;
 			
-			walkSpeed = 2.0f;
+			walkSpeed = 3.0f;
 			
 			jumpHeight = 36.0f;
 			jumpSpeed = 1.0f;
@@ -58,11 +64,63 @@ namespace SPACE
 		override public void Update(float _deltaTime, int[,] _levelData)
 		{
 			GetInput ();
-			CheckStates ();
+			CheckCollisions(_levelData);
 			CheckBoundaries();
-			CheckLevelCollisions(_levelData);
+			CheckStates ();
 			
 			sprite.Position = new Vector2(sprite.Position.X + xSpeed, sprite.Position.Y + ySpeed);
+		}
+		
+		private void CheckCollisions(int[,] _levelData)
+		{
+			Vector2 bottomPoint = 	new Vector2(sprite.Position.X + (cTileSize/2), sprite.Position.Y);
+			Vector2 topPoint = 		new Vector2(sprite.Position.X + (cTileSize/2), sprite.Position.Y+cTileSize);
+			
+			Vector2 leftPoint =		new Vector2(sprite.Position.X				, sprite.Position.Y+(cTileSize/2));
+			Vector2 rightPoint = 	new Vector2(sprite.Position.X + cTileSize	, sprite.Position.Y+(cTileSize/2));
+			
+			if(CollisionHandler.PointCollision(_levelData, bottomPoint))
+			{
+				float newPos = FMath.Floor((sprite.Position.Y/ cViewHeight)	*cLevelHeight)	*cTileSize + cTileSize;
+					
+				sprite.Position = new Vector2(sprite.Position.X, newPos);
+				
+				actState = ActState.Ground;
+			}
+			else
+			{
+				if(actState != ActState.Jump)
+				{
+					actState = ActState.Fall;
+				}
+			}
+			
+			if(CollisionHandler.PointCollision(_levelData, rightPoint))
+			{
+				float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize - 1;
+					
+				sprite.Position = new Vector2(newPos, sprite.Position.Y);
+				
+				dirState = DirState.Still;
+			}
+			
+			if(CollisionHandler.PointCollision(_levelData, leftPoint))
+			{
+				float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize + cTileSize;
+					
+				sprite.Position = new Vector2(newPos, sprite.Position.Y);
+				
+				dirState = DirState.Still;
+			}
+			
+			if(CollisionHandler.PointCollision(_levelData, topPoint))
+			{
+				float newPos = FMath.Floor((sprite.Position.Y/ cViewHeight)	*cLevelHeight)	*cTileSize - 1;
+					
+				sprite.Position = new Vector2(sprite.Position.X, newPos);
+				
+				actState = ActState.Fall;
+			}
 		}
 		
 		private void CheckStates()
@@ -121,18 +179,15 @@ namespace SPACE
 				sprite.Position = new Vector2(0.0f, sprite.Position.Y);
 			}
 			
-			if(sprite.Position.Y < 32.0f)
+			if(sprite.Position.Y < 0.0f)
 			{
 				actState = ActState.Ground;
 				ySpeed = 0.0f;
-				sprite.Position = new Vector2(sprite.Position.X, 32.0f);
+				sprite.Position = new Vector2(sprite.Position.X, 0.0f);
 			}
 		}
 		
-		private void CheckLevelCollisions(int[,] _levelData)
-		{
-			
-		}
+
 		
 		private void Jump()
 		{
