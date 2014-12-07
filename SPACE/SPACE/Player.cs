@@ -16,11 +16,24 @@ namespace SPACE
 {
 	public class Player : Entity
 	{
-		private enum DirState { Still, Left, Right };
-		private enum ActState { Ground, Jump, Fall };
+		////*****Hardcoded values
+		private const int cLevelWidth = 30;
+		private const int cLevelHeight = 17;
+		private const int cViewWidth = 960;
+		private const int cViewHeight = 544;
+		private const int cTileSize = 32;
 		
-		private DirState dirState;
-		private ActState actState;
+		
+		private enum AnimState { Still, Left, Right };
+		private enum ActionState { Ground, Jump, Fall };
+		
+		private ActionState actState;
+		private AnimState aniState;
+		
+		private bool canMoveLeft;
+		private bool canMoveRight;
+		private bool canJump;
+		
 		
 		private float ySpeed;
 		private float xSpeed;
@@ -32,12 +45,7 @@ namespace SPACE
 		private float gravity;
 		private float lastGroundPos;
 		
-		////*****Hardcoded values
-		private const int cLevelWidth = 30;
-		private const int cLevelHeight = 17;
-		private const int cViewWidth = 960;
-		private const int cViewHeight = 544;
-		private const int cTileSize = 32;
+		
 		
 		public Player ()
 		{
@@ -47,8 +55,12 @@ namespace SPACE
 			sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2 (64.0f,64.0f);
 			
-			dirState = DirState.Still;
-			actState = ActState.Fall;
+			aniState = AnimState.Still;
+			actState = ActionState.Fall;
+			
+			canMoveLeft = true;
+			canMoveRight = true;
+			canJump = true;
 			
 			xSpeed = 0.0f;
 			ySpeed = 0.0f;
@@ -63,8 +75,8 @@ namespace SPACE
 		
 		override public void Update(float _deltaTime, int[,] _levelData)
 		{
-			GetInput ();
 			CheckCollisions(_levelData);
+			GetInput ();
 			CheckBoundaries();
 			CheckStates ();
 			
@@ -73,93 +85,84 @@ namespace SPACE
 		
 		private void CheckCollisions(int[,] _levelData)
 		{
-			Vector2 bottomPoint = 	new Vector2(sprite.Position.X + (cTileSize/2), sprite.Position.Y);
-			Vector2 topPoint = 		new Vector2(sprite.Position.X + (cTileSize/2), sprite.Position.Y+cTileSize);
+			bool [] colPoint = CollisionHandler.DetailedCollision(_levelData, sprite);
 			
-			Vector2 leftPoint =		new Vector2(sprite.Position.X				, sprite.Position.Y+(cTileSize/2));
-			Vector2 rightPoint = 	new Vector2(sprite.Position.X + cTileSize	, sprite.Position.Y+(cTileSize/2));
-			
-			if(CollisionHandler.PointCollision(_levelData, bottomPoint))
+			//Ground Collision
+			if(colPoint[0])
 			{
-				float newPos = FMath.Floor((sprite.Position.Y/ cViewHeight)	*cLevelHeight)	*cTileSize + cTileSize;
-					
-				sprite.Position = new Vector2(sprite.Position.X, newPos);
-				
-				actState = ActState.Ground;
+				actState = ActionState.Ground;
 			}
 			else
 			{
-				if(actState != ActState.Jump)
+				if(actState != ActionState.Jump)
 				{
-					actState = ActState.Fall;
+					actState = ActionState.Fall;
 				}
 			}
 			
-			if(CollisionHandler.PointCollision(_levelData, rightPoint))
+			//Right Collision
+			if(colPoint[1])
 			{
-				float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize - 1;
-					
-				sprite.Position = new Vector2(newPos, sprite.Position.Y);
-				
-				dirState = DirState.Still;
+				canMoveRight = false;
+				//float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize - 1;
+				//sprite.Position = new Vector2(newPos, sprite.Position.Y);
+			}
+			else
+			{	
+				canMoveRight = true;
 			}
 			
-			if(CollisionHandler.PointCollision(_levelData, leftPoint))
+			//Left Collision
+			if(colPoint[2])
 			{
-				float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize + cTileSize;
-					
-				sprite.Position = new Vector2(newPos, sprite.Position.Y);
-				
-				dirState = DirState.Still;
+				canMoveLeft = false;
+				//float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize + cTileSize;
+				//sprite.Position = new Vector2(newPos, sprite.Position.Y);
+			}
+			else
+			{
+				canMoveLeft = true;
 			}
 			
-			if(CollisionHandler.PointCollision(_levelData, topPoint))
+			//Top Collision
+			if(colPoint[3])
 			{
-				float newPos = FMath.Floor((sprite.Position.Y/ cViewHeight)	*cLevelHeight)	*cTileSize - 1;
-					
+				float newPos = (FMath.Floor((sprite.Position.Y/ cViewHeight) *cLevelHeight))*cTileSize;
 				sprite.Position = new Vector2(sprite.Position.X, newPos);
-				
-				actState = ActState.Fall;
+				ySpeed = 0;
+				actState = ActionState.Fall;
 			}
 		}
 		
 		private void CheckStates()
 		{
-			switch(dirState)
+			switch(aniState)
 			{
-			case DirState.Still:
-				xSpeed = 0;
+			case AnimState.Still:
 				break;
 				
-			case DirState.Right:
-				
+			case AnimState.Right:
 				sprite.FlipU = false;
-				xSpeed = walkSpeed;
-				
 				break;
 				
-			case DirState.Left:
-				
+			case AnimState.Left:
 				sprite.FlipU = true;
-				xSpeed = 0 - walkSpeed;
-				
 				break;
-				
 			}
 			
 			switch(actState)
 			{
 				
-			case ActState.Ground:
-				ySpeed = 0.0f;
+			case ActionState.Ground:
+				OnGround ();
 				lastGroundPos = sprite.Position.Y;
 				break;
 			
-			case ActState.Jump:
+			case ActionState.Jump:
 				Jump();
 				break;
 			
-			case ActState.Fall:
+			case ActionState.Fall:
 				Fall ();
 				break;
 			}
@@ -174,20 +177,52 @@ namespace SPACE
 			
 			if(sprite.Position.X < 0.0f)
 			{
-				dirState = DirState.Still;
 				xSpeed = 0.0f;
 				sprite.Position = new Vector2(0.0f, sprite.Position.Y);
 			}
 			
 			if(sprite.Position.Y < 0.0f)
 			{
-				actState = ActState.Ground;
+				actState = ActionState.Ground;
 				ySpeed = 0.0f;
 				sprite.Position = new Vector2(sprite.Position.X, 0.0f);
 			}
 		}
 		
+		private void GetInput()
+		{
+			aniState = AnimState.Still;
+			xSpeed = 0.0f;
+			
+			if(InputHandler.KeyPressed (InputHandler.Key.Right) && canMoveRight)
+			{
+				WalkRight();
+				aniState = AnimState.Right;
+			}
+			
+			if(InputHandler.KeyPressed (InputHandler.Key.Left) && canMoveLeft)
+			{
+				WalkLeft();
+				aniState = AnimState.Left;
+			}
+			
+			if(InputHandler.KeyPressed (InputHandler.Key.Up) && canJump)
+			{
+				canJump = false;
+				actState = ActionState.Jump;
+			}
+		}
 
+		////Abilities
+		
+		private void OnGround()
+		{
+			float newPos = (FMath.Floor( ((sprite.Position.Y-1) / cViewHeight)	*cLevelHeight))*32+32;
+			sprite.Position = new Vector2(sprite.Position.X, newPos);
+			actState = ActionState.Ground;
+			ySpeed = 0.0f;
+			canJump = true;
+		}
 		
 		private void Jump()
 		{
@@ -197,7 +232,7 @@ namespace SPACE
 			}
 			else
 			{
-				actState = ActState.Fall;
+				actState = ActionState.Fall;
 			}
 		}
 		
@@ -206,40 +241,15 @@ namespace SPACE
 			ySpeed -= gravity;
 		}
 		
-		
-		
-		private void GetInput()
+		private void WalkLeft()
 		{
-			dirState = DirState.Still;
-			bool walkLeft = false;
-			bool walkRight = false;
-			
-			if(InputHandler.KeyPressed (InputHandler.Key.Right))
-			{
-				walkRight = true;
-				dirState = DirState.Right;
-			}
-			if(InputHandler.KeyPressed (InputHandler.Key.Left))
-			{
-				walkLeft = true;
-				dirState = DirState.Left;
-			}
-			
-			if(walkLeft && walkRight)
-			{
-				Console.WriteLine ("rawr");
-				dirState = DirState.Still;
-			}
-			
-			if(InputHandler.KeyPressed (InputHandler.Key.Up))
-			{
-				if(actState == ActState.Ground)
-				{
-					actState = ActState.Jump;
-				}
-			}
+			xSpeed = 0-walkSpeed;
 		}
 		
+		private void WalkRight()
+		{
+			xSpeed = walkSpeed;
+		}
 	}
 }
 

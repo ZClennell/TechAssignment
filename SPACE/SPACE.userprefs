@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\GameScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\Player.cs">
     <Files>
       <File FileName="SPACE\AppMain.cs" Line="39" Column="26" />
       <File FileName="SPACE\MenuScene.cs" Line="46" Column="21" />
       <File FileName="SPACE\GameScene.cs" Line="24" Column="31" />
-      <File FileName="SPACE\Player.cs" Line="122" Column="30" />
+      <File FileName="SPACE\Player.cs" Line="155" Column="28" />
       <File FileName="SPACE\Tile.cs" Line="1" Column="1" />
-      <File FileName="SPACE\CollisionHandler.cs" Line="25" Column="36" />
+      <File FileName="SPACE\CollisionHandler.cs" Line="43" Column="7" />
       <File FileName="SPACE\InputHandler.cs" Line="7" Column="3" />
       <File FileName="SPACE\Entity.cs" Line="1" Column="1" />
     </Files>
@@ -17,7 +17,7 @@
           <Node name="SPACE" expanded="True">
             <Node name="References" expanded="True" />
             <Node name="textures" expanded="True" />
-            <Node name="GameScene.cs" selected="True" />
+            <Node name="Player.cs" selected="True" />
           </Node>
         </State>
       </Pad>
