@@ -48,6 +48,7 @@
     <Compile Include="InputHandler.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="CollisionHandler.cs" />
+    <Compile Include="LevelLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -60,6 +61,7 @@
   <ItemGroup>
     <Folder Include="textures\" />
     <Folder Include="sfx\" />
+    <Folder Include="levels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="textures\MenuScreen.png" />
@@ -81,5 +83,12 @@
     <Content Include="textures\SpaceMenu.png" />
     <Content Include="textures\Water.png" />
     <Content Include="textures\WaterTop.png" />
+    <Content Include="textures\grass1.png" />
+    <Content Include="textures\Lego.png" />
+    <Content Include="textures\wavey.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="levels\Level1.txt" />
+    <None Include="levels\Level2.txt" />
   </ItemGroup>
 </Project>

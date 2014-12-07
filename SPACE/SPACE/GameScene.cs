@@ -21,16 +21,17 @@ namespace SPACE
 		
 		private Entity	  player;
 
-		private int[,] 	  levelData;
+		private int[,] 	  currentLevel;
 		private const int levelWidth = 30;
 		private const int levelHeight = 17;
 		private const int tileSize = 32;
+		
 		
 		public GameScene()
 		{
 			Scheduler.Instance.ScheduleUpdateForTarget(this, 1, false);	// Tells the director that this "node" requires to be updated
 			
-			GetLevel ();
+			currentLevel = LevelLoader.GetLevel();
 			DrawLevel ();
 			
 			scenePaused = false;
@@ -45,7 +46,7 @@ namespace SPACE
 		{
 			if(!scenePaused)
 			{
-				player.Update (deltaTime, levelData);
+				player.Update (deltaTime, currentLevel);
 			}
 		}
 		
@@ -55,47 +56,25 @@ namespace SPACE
 		
 		
 		
-		private void GetLevel()
-		{
-			levelData = new int[,]{
-				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-				{1,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,2,0,2,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,2,0,2,0,0,2,1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,2,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,2,2,2,0,0,2,0,0,0,0,2,0,0,2,0,0,2,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,2,0,2,0,0,2,0,0,0,0,0,2,2,0,2,2,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,2,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,0,0,0,1},
-				{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1},
-				{1,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1},
-				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			};
-			
-		}
+
 		
 		private void DrawLevel()
 		{
-			TextureInfo texInfo1 = new TextureInfo ("/Application/textures/green3.png");
+			TextureInfo texInfo1 = new TextureInfo ("/Application/textures/lego.png");
 			TextureInfo texInfo2 = new TextureInfo ("/Application/textures/lava.png");
 			
 			for(int y = 0; y < levelHeight; y++)
 			{
 				for(int x = 0; x < levelWidth; x++)
 				{
-					if(levelData[y,x] == 1)
+					if(currentLevel[y,x] == 1)
 					{
 						SpriteUV sprite = new SpriteUV(texInfo1);
 						sprite.Quad.S = texInfo1.TextureSizef;
 						sprite.Position = new Vector2 (x*tileSize, y*tileSize);
 						this.AddChild (sprite);
 					}
-					if(levelData[y,x] == 2)
+					if(currentLevel[y,x] == 2)
 					{
 						SpriteUV sprite = new SpriteUV(texInfo2);
 						sprite.Quad.S = texInfo2.TextureSizef;

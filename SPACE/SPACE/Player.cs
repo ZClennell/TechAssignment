@@ -238,6 +238,7 @@ namespace SPACE
 		
 		private void Fall()
 		{
+			canJump = false;
 			ySpeed -= gravity;
 		}
 		
