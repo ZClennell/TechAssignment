@@ -19,7 +19,7 @@ namespace SPACE
 		private static int cLevelWidth = 30;
 		private static int cViewHeight = 544;
 		private static int cViewWidth = 960;
-		private static int cTileSize = 32;
+		//private static int cTileSize = 32;
 		
 		public static bool PointCollision(int[,] _levelData, Vector2 _point)
 		{
@@ -36,7 +36,53 @@ namespace SPACE
 			}
 			
 			return false;
+		}
+		
+		public static bool BoxCollision(SpriteUV _sprite1, SpriteUV _sprite2)
+		{
+			//Box1
+			Bounds2 b1 = _sprite1.Quad.Bounds2();
+			float width = b1.Point10.X;
+			float height = b1.Point01.Y;
 			
+			Vector2 sprite1p1 = new Vector2(_sprite1.Position.X, 
+			                                _sprite1.Position.Y);
+			
+			Vector2 sprite1p2 = new Vector2(_sprite1.Position.X + width, 
+			                               	_sprite1.Position.Y + height);
+			
+			//Box 2
+			Bounds2 b2 = _sprite2.Quad.Bounds2();
+			width = b2.Point10.X;
+			height = b2.Point01.Y;
+			
+			Vector2 sprite2p1 = new Vector2(_sprite2.Position.X, 
+			                                _sprite2.Position.Y);
+			
+			Vector2 sprite2p2 = new Vector2(_sprite2.Position.X + width, 
+			                               	_sprite2.Position.Y + height);
+			
+			if(	!(	sprite1p1.X > sprite2p2.X	|| sprite1p2.X < sprite2p1.X	||
+			   		sprite1p1.Y > sprite2p2.Y	|| sprite1p2.Y < sprite2p1.Y	))
+			{
+				return true;
+			}
+			
+			return false;
+		}
+		
+		public static bool LineCollision(int[,] _levelData, Vector2 _point1, Vector2 _point2)
+		{
+			if(PointCollision (_levelData, _point1))
+			{
+				return true;
+			}
+			else 
+			if (PointCollision (_levelData, _point2))
+			{
+				return true;
+			}
+			return false;
 		}
 		
 		private static int LimitToRange(int _value, int _min, int _max)
@@ -46,46 +92,6 @@ namespace SPACE
 	        return _value;
     	}
 		
-		public static bool[] DetailedCollision(int[,] _levelData, SpriteUV _sprite)
-		{
-			Vector2 bottomPoint = 	new Vector2(_sprite.Position.X + (cTileSize/2), _sprite.Position.Y - 1);
-			Vector2 topPoint = 		new Vector2(_sprite.Position.X + (cTileSize/2), _sprite.Position.Y+cTileSize);
-			Vector2 leftPoint =		new Vector2(_sprite.Position.X				, 	_sprite.Position.Y+(cTileSize/2));
-			Vector2 rightPoint = 	new Vector2(_sprite.Position.X + cTileSize	, 	_sprite.Position.Y+(cTileSize/2));
-			
-			bool[] colPoint = new bool[4];
-			
-			for(int a = 0; a < colPoint.Length; a++)
-			{
-				colPoint[a] = false;
-			}
-			
-			//Ground Collision
-			if(CollisionHandler.PointCollision(_levelData, bottomPoint))
-			{
-				colPoint[0] = true;
-			}
-			
-			//Right Collision
-			if(CollisionHandler.PointCollision(_levelData, rightPoint))
-			{
-				colPoint[1] = true;
-			}
-			
-			//Left Collision
-			if(CollisionHandler.PointCollision(_levelData, leftPoint))
-			{
-				colPoint[2] = true;
-			}
-			
-			//Top Collision
-			if(CollisionHandler.PointCollision(_levelData, topPoint))
-			{
-				colPoint[3] = true;
-			}
-			
-			return colPoint;
-		}
 		
 	}
 }

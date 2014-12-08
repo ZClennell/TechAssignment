@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\GameScene.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SPACE\Player.cs">
     <Files>
       <File FileName="SPACE\AppMain.cs" Line="39" Column="26" />
       <File FileName="SPACE\MenuScene.cs" Line="46" Column="21" />
-      <File FileName="SPACE\GameScene.cs" Line="66" Column="40" />
-      <File FileName="SPACE\Player.cs" Line="241" Column="20" />
+      <File FileName="SPACE\GameScene.cs" Line="53" Column="27" />
+      <File FileName="SPACE\Player.cs" Line="133" Column="6" />
       <File FileName="SPACE\Entity.cs" Line="10" Column="46" />
-      <File FileName="SPACE\CollisionHandler.cs" Line="51" Column="95" />
+      <File FileName="SPACE\CollisionHandler.cs" Line="62" Column="65" />
       <File FileName="SPACE\InputHandler.cs" Line="7" Column="3" />
       <File FileName="SPACE\LevelLoader.cs" Line="29" Column="66" />
     </Files>
@@ -17,9 +17,8 @@
           <Node name="SPACE" expanded="True">
             <Node name="References" expanded="True" />
             <Node name="levels" expanded="True" />
-            <Node name="textures" expanded="True">
-              <Node name="Pink2.png" selected="True" />
-            </Node>
+            <Node name="textures" expanded="True" />
+            <Node name="Player.cs" selected="True" />
           </Node>
         </State>
       </Pad>

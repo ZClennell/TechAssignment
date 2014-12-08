@@ -45,6 +45,8 @@ namespace SPACE
 		private float gravity;
 		private float lastGroundPos;
 		
+		private Vector2 hitBox;
+		private Vector2 hitBoxOffset;
 		
 		
 		public Player ()
@@ -71,6 +73,9 @@ namespace SPACE
 			jumpSpeed = 1.0f;
 			gravity = 0.5f;
 			lastGroundPos = 0.0f;
+			
+			hitBox = new Vector2(20.0f, 28.0f);
+			hitBoxOffset = new Vector2(8.0f, 0.0f);
 		}
 		
 		override public void Update(float _deltaTime, int[,] _levelData)
@@ -85,10 +90,38 @@ namespace SPACE
 		
 		private void CheckCollisions(int[,] _levelData)
 		{
-			bool [] colPoint = CollisionHandler.DetailedCollision(_levelData, sprite);
+			//These are the collision boundaries for the sprite.
+			//Each is checked separately since different functions will happen 
+			//depending on the direction of the collision.
 			
+			float xOffset = 6.0f;
+			
+			Vector2 groundPoint1 = 	new Vector2(sprite.Position.X + hitBoxOffset.X + xOffset, 
+			                                    sprite.Position.Y + hitBoxOffset.Y - 1);
+			
+			Vector2 groundPoint2 = 	new Vector2(sprite.Position.X + hitBoxOffset.X + hitBox.X - xOffset,
+			                                    sprite.Position.Y + hitBoxOffset.Y - 1);
+			
+			float yOffset = 10.0f;
+			
+			Vector2 topLeft = 		new Vector2(sprite.Position.X + hitBoxOffset.X, 
+			                                    sprite.Position.Y + hitBoxOffset.Y + hitBox.Y - yOffset);
+			
+			Vector2 topRight = 		new Vector2(sprite.Position.X + hitBoxOffset.X + hitBox.X,
+			                                    sprite.Position.Y + hitBoxOffset.Y + hitBox.Y - yOffset);
+			
+			Vector2 bottomLeft =	new Vector2(sprite.Position.X + hitBoxOffset.X,
+			                                 	sprite.Position.Y + hitBoxOffset.Y + yOffset);
+			
+			Vector2 bottomRight =	new Vector2(sprite.Position.X + hitBoxOffset.X + hitBox.X,
+			                                  	sprite.Position.Y + hitBoxOffset.Y + yOffset);
+			
+			Vector2 topCenter = 	new Vector2(sprite.Position.X + (cTileSize/2), 
+			                                    sprite.Position.Y + hitBoxOffset.Y + hitBox.Y - yOffset);
+
+
 			//Ground Collision
-			if(colPoint[0])
+			if(CollisionHandler.LineCollision (_levelData, groundPoint1, groundPoint2))
 			{
 				actState = ActionState.Ground;
 			}
@@ -101,33 +134,15 @@ namespace SPACE
 			}
 			
 			//Right Collision
-			if(colPoint[1])
-			{
-				canMoveRight = false;
-				//float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize - 1;
-				//sprite.Position = new Vector2(newPos, sprite.Position.Y);
-			}
-			else
-			{	
-				canMoveRight = true;
-			}
+			canMoveRight = !(CollisionHandler.LineCollision (_levelData, topRight, bottomRight));
 			
 			//Left Collision
-			if(colPoint[2])
-			{
-				canMoveLeft = false;
-				//float newPos = FMath.Floor((sprite.Position.X/ cViewWidth)	*cLevelWidth)	*cTileSize + cTileSize;
-				//sprite.Position = new Vector2(newPos, sprite.Position.Y);
-			}
-			else
-			{
-				canMoveLeft = true;
-			}
+			canMoveLeft = !(CollisionHandler.LineCollision (_levelData, topLeft, bottomLeft));
 			
 			//Top Collision
-			if(colPoint[3])
+			if(CollisionHandler.PointCollision (_levelData, topCenter))
 			{
-				float newPos = (FMath.Floor((sprite.Position.Y/ cViewHeight) *cLevelHeight))*cTileSize;
+				float newPos = (FMath.Floor( ((sprite.Position.Y-1) / cViewHeight)	*cLevelHeight))*cTileSize;
 				sprite.Position = new Vector2(sprite.Position.X, newPos);
 				ySpeed = 0;
 				actState = ActionState.Fall;
@@ -217,7 +232,7 @@ namespace SPACE
 		
 		private void OnGround()
 		{
-			float newPos = (FMath.Floor( ((sprite.Position.Y-1) / cViewHeight)	*cLevelHeight))*32+32;
+			float newPos = (FMath.Floor( ((sprite.Position.Y-1) / cViewHeight)	*cLevelHeight))*cTileSize+cTileSize;
 			sprite.Position = new Vector2(sprite.Position.X, newPos);
 			actState = ActionState.Ground;
 			ySpeed = 0.0f;
