@@ -41,8 +41,12 @@ namespace SPACE
 			}
 		}
 		
+		public void SetPosition(Vector2 _newPos)
+		{
+			sprite.Position = _newPos;
+		}
 		
-		public virtual void Update(float _deltaTime, int[,] levelData){}
+		public virtual void Update(float _deltaTime, int[,] _levelData){}
 		public virtual void Update(float _deltaTime){}
 	}
 }

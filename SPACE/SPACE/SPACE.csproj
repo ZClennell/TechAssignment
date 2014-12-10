@@ -49,6 +49,8 @@
     <Compile Include="Tile.cs" />
     <Compile Include="CollisionHandler.cs" />
     <Compile Include="LevelLoader.cs" />
+    <Compile Include="BackgroundLoader.cs" />
+    <Compile Include="Enemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -86,6 +88,12 @@
     <Content Include="textures\grass1.png" />
     <Content Include="textures\Lego.png" />
     <Content Include="textures\wavey.png" />
+    <Content Include="textures\Exit.png" />
+    <Content Include="textures\Spikes2.jpg" />
+    <Content Include="textures\Enemy1.png" />
+    <Content Include="textures\Enemy2.png" />
+    <Content Include="textures\Enemy3.png" />
+    <Content Include="textures\Enemy4.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="levels\Level1.txt" />

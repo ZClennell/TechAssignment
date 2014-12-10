@@ -19,34 +19,44 @@ namespace SPACE
 		private bool		scenePaused;
 		public bool			swapScene {get; set;}
 		
-		private Entity	  player;
+		private List<Entity> entityList = new List<Entity>();
 
 		private int[,] 	  currentLevel;
-		private const int levelWidth = 30;
-		private const int levelHeight = 17;
-		private const int tileSize = 32;
+		private const int cLevelWidth = 30;
+		private const int cLevelHeight = 17;
+		private const int cTileSize = 32;
 		
 		
 		public GameScene()
 		{
 			Scheduler.Instance.ScheduleUpdateForTarget(this, 1, false);	// Tells the director that this "node" requires to be updated
 			
-			currentLevel = LevelLoader.GetLevel();
-			DrawLevel ();
-			
 			scenePaused = false;
 			swapScene = false;;
 			
-			player = new Player();
-			this.AddChild(player.Sprite);
+			currentLevel = LevelLoader.GetLevel();
 			
+			CreateLevel ();
+			
+			AddToScene();
+		}
+		
+		private void AddToScene()
+		{
+			foreach (var entity in entityList)
+			{
+            	this.AddChild (entity.Sprite);
+			}
 		}
 		
 		public override void Update(float deltaTime)
 		{
 			if(!scenePaused)
 			{
-				player.Update (deltaTime, currentLevel);
+				foreach (var entity in entityList)
+				{
+            		entity.Update (deltaTime, currentLevel);
+				}
 			}
 		}
 		
@@ -58,32 +68,50 @@ namespace SPACE
 		
 
 		
-		private void DrawLevel()
+		private void CreateLevel()
 		{
-			TextureInfo texInfo1 = new TextureInfo ("/Application/textures/lego.png");
-			TextureInfo texInfo2 = new TextureInfo ("/Application/textures/lava.png");
-			
-			for(int y = 0; y < levelHeight; y++)
+			for(int y = 0; y < cLevelHeight; y++)
 			{
-				for(int x = 0; x < levelWidth; x++)
+				for(int x = 0; x < cLevelWidth; x++)
 				{
-					if(currentLevel[y,x] == 1)
-					{
-						SpriteUV sprite = new SpriteUV(texInfo1);
-						sprite.Quad.S = texInfo1.TextureSizef;
-						sprite.Position = new Vector2 (x*tileSize, y*tileSize);
-						this.AddChild (sprite);
-					}
-					if(currentLevel[y,x] == 2)
-					{
-						SpriteUV sprite = new SpriteUV(texInfo2);
-						sprite.Quad.S = texInfo2.TextureSizef;
-						sprite.Position = new Vector2 (x*tileSize, y*tileSize);
-						this.AddChild (sprite);
-					}
+					AddElement(currentLevel, x, y);
 				}
 			}
 		}
+		
+		private void AddElement(int[,] _level, int _x, int _y)
+		{
+			float tileX = _x*cTileSize;	
+			float tileY = _y*cTileSize;
+			
+			TextureInfo texInfo1 = new TextureInfo ("/Application/textures/lego.png");
+			TextureInfo texInfo2 = new TextureInfo ("/Application/textures/lava.png");
+			
+			switch(_level[_y,_x])
+			{
+				case 1:
+					SpriteUV sprite = new SpriteUV(texInfo1);
+					sprite.Quad.S = texInfo1.TextureSizef;
+					sprite.Position = new Vector2 (tileX, tileY);
+					this.AddChild (sprite);
+				break;
+					
+				case 2:
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",false,false));
+				break;
+					
+				case 3:
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy4",false,false));
+				break;
+					
+				case 4:
+					Player player = new Player();
+					player.SetPosition (new Vector2(tileX, tileY));
+					entityList.Add(player);
+				break;
+			}
+		}
+		
 		
 	}
 }
