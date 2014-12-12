@@ -51,6 +51,7 @@
     <Compile Include="LevelLoader.cs" />
     <Compile Include="BackgroundLoader.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="ExitTile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />

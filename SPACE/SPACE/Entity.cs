@@ -48,6 +48,7 @@ namespace SPACE
 		
 		public virtual void Update(float _deltaTime, int[,] _levelData){}
 		public virtual void Update(float _deltaTime){}
+		public virtual string ReturnType(){return " ";}
 	}
 }
 

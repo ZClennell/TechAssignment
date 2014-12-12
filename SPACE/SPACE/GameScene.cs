@@ -26,22 +26,38 @@ namespace SPACE
 		private const int cLevelHeight = 17;
 		private const int cTileSize = 32;
 		
+		private int levelNum = 1;
+		TextureInfo basicTile;
+		
 		
 		public GameScene()
 		{
 			Scheduler.Instance.ScheduleUpdateForTarget(this, 1, false);	// Tells the director that this "node" requires to be updated
 			
 			scenePaused = false;
-			swapScene = false;;
+			swapScene = false;
 			
-			currentLevel = LevelLoader.GetLevel();
-			
-			CreateLevel ();
-			
-			AddToScene();
+			LoadLevel(levelNum);
 		}
 		
-		private void AddToScene()
+		private void LoadLevel(int _levelNum)
+		{
+			levelNum = _levelNum;
+			currentLevel = LevelLoader.GetLevel (_levelNum);
+			
+			CleanupLevel();
+			
+			DrawLevel ();
+			DrawEntities();
+		}
+		
+		private void CleanupLevel()
+		{
+			this.RemoveAllChildren (true);
+			entityList.Clear();
+		}
+		
+		private void DrawEntities()
 		{
 			foreach (var entity in entityList)
 			{
@@ -53,22 +69,24 @@ namespace SPACE
 		{
 			if(!scenePaused)
 			{
-				foreach (var entity in entityList)
+				foreach (var entity in entityList.ToArray())
 				{
             		entity.Update (deltaTime, currentLevel);
+					
+					if(entity.ReturnType().Equals("Player"))
+					{
+						CheckEntityCollisions(entity);
+					}
+				}
+				
+				if(InputHandler.KeyPressed (InputHandler.Key.Enter))
+				{
+					LoadLevel (levelNum+1);
 				}
 			}
 		}
-		
-		public void ResetScene()
-		{
-		}
-		
-		
-		
 
-		
-		private void CreateLevel()
+		private void DrawLevel()
 		{
 			for(int y = 0; y < cLevelHeight; y++)
 			{
@@ -84,24 +102,34 @@ namespace SPACE
 			float tileX = _x*cTileSize;	
 			float tileY = _y*cTileSize;
 			
-			TextureInfo texInfo1 = new TextureInfo ("/Application/textures/lego.png");
-			TextureInfo texInfo2 = new TextureInfo ("/Application/textures/lava.png");
+			switch(levelNum)
+			{
+				case 1:
+					basicTile = new TextureInfo ("/Application/textures/lego.png");
+				break;
+				case 2:
+					basicTile = new TextureInfo ("/Application/textures/wavey.png");
+				break;
+				case 3:
+					basicTile = new TextureInfo ("/Application/textures/lava.png");
+				break;
+			}
 			
 			switch(_level[_y,_x])
 			{
 				case 1:
-					SpriteUV sprite = new SpriteUV(texInfo1);
-					sprite.Quad.S = texInfo1.TextureSizef;
+					SpriteUV sprite = new SpriteUV(basicTile);
+					sprite.Quad.S = basicTile.TextureSizef;
 					sprite.Position = new Vector2 (tileX, tileY);
 					this.AddChild (sprite);
 				break;
 					
 				case 2:
-					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",false,false));
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy4",false,false));
 				break;
 					
 				case 3:
-					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy4",false,false));
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",true,false));
 				break;
 					
 				case 4:
@@ -109,6 +137,28 @@ namespace SPACE
 					player.SetPosition (new Vector2(tileX, tileY));
 					entityList.Add(player);
 				break;
+				
+				case 5:
+					entityList.Add(new ExitTile(tileX, tileY));
+				break;
+			}
+		}
+		
+		private void CheckEntityCollisions(Entity _entity1)
+		{
+			foreach (var entity2 in entityList.ToArray())
+			{
+				if(CollisionHandler.BoxCollision(_entity1.Sprite, entity2.Sprite))
+				{
+					if(entity2.ReturnType().Equals ("Enemy"))
+					{
+						LoadLevel (levelNum);
+					}
+					if(entity2.ReturnType().Equals ("Exit"))
+					{
+						LoadLevel (levelNum +1);
+					}
+				}
 			}
 		}
 		

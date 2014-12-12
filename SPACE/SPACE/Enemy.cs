@@ -24,6 +24,7 @@ namespace SPACE
 		private Vector2 max;
 		private Bounds2 box;
 		int i = 0;
+		float distance = 0.5f;
 		
 		private bool hard, second;
 		
@@ -34,7 +35,7 @@ namespace SPACE
 			sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2 (_pos.X, _pos.Y);
 			moveSpeed = 2.0f;
-			RmoveSpeed = 5.0f;
+			RmoveSpeed = 2.0f;
 			
 			hard = _hard;
 			second = _second;
@@ -94,11 +95,11 @@ namespace SPACE
 		{
 			if(second == false)
 			{
-				if(i>50)
+				if(i>50*distance)
 				{
 					dirState = DirState.Left;
 					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 5);
-					if(i==100)
+					if(i==100*distance)
 					i=0;
 				}
 				else
@@ -108,11 +109,11 @@ namespace SPACE
 				}
 			}else
 			{
-				if(i>50)
+				if(i>50*distance)
 				{
 					dirState = DirState.Right;
 					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 5);
-					if(i==100)
+					if(i==100*distance)
 					i=0;
 				}
 				else
@@ -133,6 +134,11 @@ namespace SPACE
 		public Bounds2 Bbox()
 		{
 				return box;
+		}
+		
+		override public string ReturnType()
+		{
+			return "Enemy";
 		}
 	}
 }

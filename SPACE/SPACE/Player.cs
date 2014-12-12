@@ -266,6 +266,11 @@ namespace SPACE
 		{
 			xSpeed = walkSpeed;
 		}
+		
+		override public string ReturnType()
+		{
+			return "Player";
+		}
 	}
 }
 

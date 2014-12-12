@@ -5,10 +5,10 @@ namespace SPACE
 {
 	public static class InputHandler
 	{
-		public enum Key { Right, Left, Up, Down };
+		public enum Key { Right, Left, Up, Down, Enter};
 		
-		private static bool[] 		keyPressed = new bool[4];
-		private const int 	cKeyAmount = 4;
+		private static bool[] 		keyPressed = new bool[5];
+		private const int 	cKeyAmount = 5;
 		
 		
 		public static bool KeyPressed(Key _key)
@@ -41,6 +41,11 @@ namespace SPACE
 			if((gamePadData.Buttons & GamePadButtons.Up) != 0)
 			{
 				keyPressed[(int)Key.Up] = true;
+			}
+			
+			if((gamePadData.Buttons & GamePadButtons.Enter) != 0)
+			{
+				keyPressed[(int)Key.Enter] = true;
 			}
 			
 		}
