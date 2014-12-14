@@ -25,6 +25,12 @@ namespace SPACE
 		private const int cLevelWidth = 30;
 		private const int cLevelHeight = 17;
 		private const int cTileSize = 32;
+		private Sound coinpickup;
+		private SoundPlayer playSound;
+		private Sound jump;
+		private SoundPlayer playSoundjump;
+		private Sound EndLevel;
+		private SoundPlayer playSoundend;
 		
 		private int levelNum = 1;
 		TextureInfo basicTile;
@@ -38,6 +44,13 @@ namespace SPACE
 			swapScene = false;
 			
 			LoadLevel(levelNum);
+			
+			coinpickup = new Sound("/Application/sounds/Pickup_Coin.wav");
+			playSound = coinpickup.CreatePlayer();
+			jump = new Sound("/Application/sounds/Jump.wav");
+			playSoundjump = jump.CreatePlayer();
+			EndLevel = new Sound("/Application/sounds/EndLev.wav");
+			playSoundend = EndLevel.CreatePlayer();
 		}
 		
 		private void LoadLevel(int _levelNum)
@@ -156,21 +169,23 @@ namespace SPACE
 					if(entity2.ReturnType().Equals ("Enemy"))
 					{
 						LoadLevel (levelNum);
+						playSoundjump.Play();
 					}
 					if(entity2.ReturnType().Equals ("Exit"))
 					{
+						playSoundend.Play();
 						LoadLevel (levelNum +1);
 					}
 					if(entity2.ReturnType().Equals ("Coin"))
 					{
 						this.RemoveChild(entity2.Sprite,true);
-						Score ++;
 						playSound.Play();;
 				}
 			}
 		}
 		
 		
+	}
 	}
 }
 

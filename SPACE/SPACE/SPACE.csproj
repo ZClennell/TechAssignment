@@ -100,6 +100,7 @@
     <Content Include="sounds\EndLev.wav" />
     <Content Include="sounds\Pickup_Coin.wav" />
     <Content Include="sounds\Jump.wav" />
+    <Content Include="textures\Coin2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="levels\Level1.txt" />
