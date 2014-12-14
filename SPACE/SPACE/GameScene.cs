@@ -157,6 +157,9 @@ namespace SPACE
 				case 6:
 					entityList.Add(new Coins(tileX, tileY));
 				break;
+				case 7:
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",true,true));
+				break;
 			}
 		}
 		
