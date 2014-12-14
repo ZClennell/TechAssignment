@@ -32,6 +32,8 @@ namespace SPACE
 		private Sound EndLevel;
 		private SoundPlayer playSoundend;
 		
+		bool collected = false;
+		
 		private int levelNum = 1;
 		TextureInfo basicTile;
 		
@@ -181,16 +183,20 @@ namespace SPACE
 					}
 					if(entity2.ReturnType().Equals ("Coin"))
 					{
+						collected = true;
 						this.RemoveChild(entity2.Sprite,true);
-						playSound.Play();;
-				}
-			}
+						if(playSound.Status != SoundStatus.Playing)
+						{
+							playSound.Play();
+						}
+					}
 		}
 		
 		
 	}
 	}
 }
+	}
 
 
 
