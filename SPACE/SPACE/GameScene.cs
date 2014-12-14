@@ -141,6 +141,9 @@ namespace SPACE
 				case 5:
 					entityList.Add(new ExitTile(tileX, tileY));
 				break;
+				case 6:
+					entityList.Add(new Coins(tileX, tileY));
+				break;
 			}
 		}
 		
@@ -158,6 +161,11 @@ namespace SPACE
 					{
 						LoadLevel (levelNum +1);
 					}
+					if(entity2.ReturnType().Equals ("Coin"))
+					{
+						this.RemoveChild(entity2.Sprite,true);
+						Score ++;
+						playSound.Play();;
 				}
 			}
 		}

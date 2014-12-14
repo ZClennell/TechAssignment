@@ -52,6 +52,7 @@
     <Compile Include="BackgroundLoader.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="ExitTile.cs" />
+    <Compile Include="Coins.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -65,6 +66,7 @@
     <Folder Include="textures\" />
     <Folder Include="sfx\" />
     <Folder Include="levels\" />
+    <Folder Include="sounds\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="textures\MenuScreen.png" />
@@ -95,6 +97,9 @@
     <Content Include="textures\Enemy2.png" />
     <Content Include="textures\Enemy3.png" />
     <Content Include="textures\Enemy4.png" />
+    <Content Include="sounds\EndLev.wav" />
+    <Content Include="sounds\Pickup_Coin.wav" />
+    <Content Include="sounds\Jump.wav" />
   </ItemGroup>
   <ItemGroup>
     <None Include="levels\Level1.txt" />
