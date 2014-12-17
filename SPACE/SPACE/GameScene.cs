@@ -30,8 +30,6 @@ namespace SPACE
 		private SoundPlayer jumpSound;
 		private SoundPlayer endSound;
 		
-		bool collected = false;
-		
 		private int levelNum = 1;
 		TextureInfo basicTile;
 		
@@ -181,10 +179,7 @@ namespace SPACE
 					}
 					if(entity2.ReturnType().Equals ("Box"))
 					{
-						collected = true;
 						this.RemoveChild(entity2.Sprite,true);
-<<<<<<< HEAD
-						
 						entityList.Remove(entity2);
 						
 						if(coinSound.Status != SoundStatus.Playing)
@@ -192,17 +187,10 @@ namespace SPACE
 							coinSound.Play();
 						}
 						
-						SpawnCoins (new Vector2(entity2.Sprite.Position.X, entity2.Sprite.Position.Y), 6);
+						SpawnCoins (new Vector2(entity2.Sprite.Position.X, entity2.Sprite.Position.Y), 12);
 					}
 				}
 			}
-=======
-						if(playSound.Status != SoundStatus.Playing)
-						{
-							playSound.Play();
-						}
-					}
->>>>>>> origin/master
 		}
 		
 		private void SpawnCoins(Vector2 _position, int _amount)
@@ -219,10 +207,8 @@ namespace SPACE
 				this.AddChild (coin.Sprite);
 			}
 		}
-		
 	}
 }
-	}
 
 
 

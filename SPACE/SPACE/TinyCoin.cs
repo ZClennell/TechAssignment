@@ -20,7 +20,7 @@ namespace SPACE
 		float gravity = 0.2f;
 		float maxSpeed = 4.0f;
 		float bounciness = 0.8f;
-		float falloff = 0.99f;
+		float falloff = 0.995f;
 		
 		Vector2 hitBox = new Vector2(8.0f, 8.0f);
 		Vector2 hitBoxOffset = new Vector2(0.0f, 0.0f);
@@ -35,7 +35,7 @@ namespace SPACE
 			
 			Random rng = new Random((int)(sprite.Position.X + sprite.Position.Y));
 			xSpeed = rng.Next ((int)(0-maxSpeed), (int)maxSpeed);
-			ySpeed = 1.0f;
+			ySpeed = rng.Next ((int)(0-maxSpeed), (int)maxSpeed);
 		}
 		
 		override public void Update(float deltaTime, int[,] levelData)
