@@ -25,12 +25,10 @@ namespace SPACE
 		private const int cLevelWidth = 30;
 		private const int cLevelHeight = 17;
 		private const int cTileSize = 32;
-		private Sound coinpickup;
-		private SoundPlayer playSound;
-		private Sound jump;
-		private SoundPlayer playSoundjump;
-		private Sound EndLevel;
-		private SoundPlayer playSoundend;
+		
+		private SoundPlayer coinSound;
+		private SoundPlayer jumpSound;
+		private SoundPlayer endSound;
 		
 		private int levelNum = 1;
 		TextureInfo basicTile;
@@ -45,12 +43,9 @@ namespace SPACE
 			
 			LoadLevel(levelNum);
 			
-			coinpickup = new Sound("/Application/sounds/Pickup_Coin.wav");
-			playSound = coinpickup.CreatePlayer();
-			jump = new Sound("/Application/sounds/Jump.wav");
-			playSoundjump = jump.CreatePlayer();
-			EndLevel = new Sound("/Application/sounds/EndLev.wav");
-			playSoundend = EndLevel.CreatePlayer();
+			coinSound = new Sound("/Application/sounds/Pickup_Coin.wav").CreatePlayer();
+			jumpSound = new Sound("/Application/sounds/Jump.wav").CreatePlayer();
+			endSound = new Sound("/Application/sounds/EndLev.wav").CreatePlayer();
 		}
 		
 		private void LoadLevel(int _levelNum)
@@ -84,12 +79,12 @@ namespace SPACE
 			{
 				foreach (var entity in entityList.ToArray())
 				{
-            		entity.Update (deltaTime, currentLevel);
-					
 					if(entity.ReturnType().Equals("Player"))
 					{
 						CheckEntityCollisions(entity);
 					}
+					
+					entity.Update (deltaTime, currentLevel);
 				}
 				
 				if(InputHandler.KeyPressed (InputHandler.Key.Enter))
@@ -138,11 +133,11 @@ namespace SPACE
 				break;
 					
 				case 2:
-					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy4",false,false));
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy4",1));
 				break;
 					
 				case 3:
-					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",true,false));
+					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",2));
 				break;
 					
 				case 4:
@@ -155,10 +150,7 @@ namespace SPACE
 					entityList.Add(new ExitTile(tileX, tileY));
 				break;
 				case 6:
-					entityList.Add(new Coins(tileX, tileY));
-				break;
-				case 7:
-					entityList.Add(new Enemy(new Vector2(tileX, tileY), "Enemy3",true,true));
+					entityList.Add(new Box(tileX, tileY));
 				break;
 			}
 		}
@@ -172,23 +164,51 @@ namespace SPACE
 					if(entity2.ReturnType().Equals ("Enemy"))
 					{
 						LoadLevel (levelNum);
-						playSoundjump.Play();
+						if(jumpSound.Status != SoundStatus.Playing)
+						{
+							jumpSound.Play();
+						}
 					}
 					if(entity2.ReturnType().Equals ("Exit"))
 					{
-						playSoundend.Play();
+						if(endSound.Status != SoundStatus.Playing)
+						{
+							endSound.Play();
+						}
 						LoadLevel (levelNum +1);
 					}
-					if(entity2.ReturnType().Equals ("Coin"))
+					if(entity2.ReturnType().Equals ("Box"))
 					{
 						this.RemoveChild(entity2.Sprite,true);
-						playSound.Play();;
+						
+						entityList.Remove(entity2);
+						
+						if(coinSound.Status != SoundStatus.Playing)
+						{
+							coinSound.Play();
+						}
+						
+						SpawnCoins (new Vector2(entity2.Sprite.Position.X, entity2.Sprite.Position.Y), 6);
+					}
 				}
 			}
 		}
 		
+		private void SpawnCoins(Vector2 _position, int _amount)
+		{
+			Random rng = new Random();
+			
+			for(int a = 0; a < _amount; a++)
+			{
+				float xOffset = rng.Next(8);
+				float yOffset = rng.Next(8);
+				
+				TinyCoin coin = new TinyCoin(_position.X+xOffset, _position.Y+yOffset);
+				entityList.Add (coin);
+				this.AddChild (coin.Sprite);
+			}
+		}
 		
-	}
 	}
 }
 

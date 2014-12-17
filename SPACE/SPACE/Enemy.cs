@@ -16,113 +16,90 @@ namespace SPACE
 {
 	public class Enemy : Entity
 	{
-		private enum DirState { Still, Left, Right };
-		private DirState dirState;
-		private float moveSpeed;
-		private float RmoveSpeed;
-		private Vector2 min;
-		private Vector2 max;
-		private Bounds2 box;
-		int i = 0;
-		float distance = 0.5f;
+		private int mode;
 		
-		private bool hard, second;
+		float spawnX, spawnY;
+		float moveDist = 128.0f;
+		float moveSpeed = 2.0f;
+		bool moveSwitch = true;
 		
-		public Enemy (Vector2 _pos, String _fileName, bool _hard, bool _second)
+		
+		public Enemy (Vector2 _pos, String _fileName, int _mode)
 		{
 			texInfo = new TextureInfo ("/Application/textures/" + _fileName + ".png");
 			sprite = new SpriteUV (texInfo);
 			sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2 (_pos.X, _pos.Y);
-			moveSpeed = 2.0f;
-			RmoveSpeed = 2.0f;
 			
-			hard = _hard;
-			second = _second;
-			
-			min = new Vector2 (sprite.Position.X,sprite.Position.Y);
-			max = new Vector2 (sprite.Position.X+44.0f,sprite.Position.Y+50.0f);
-			box = new Bounds2 (min, max);
-		}	
+			spawnX = _pos.X;
+			spawnY = _pos.Y;
+			mode = _mode;
+		}
+		
+		
 		override public void Update(float _deltaTime, int[,] _levelData)
 		{
-			if(hard == false)
+			switch(mode)
 			{
-				switch(dirState)
+			case 1:
+				MoveHorizontal();
+				break;
+			case 2:
+				MoveVertical();
+				break;
+			}
+		}
+		
+		private void MoveHorizontal()
+		{
+			if(moveSwitch)
+			{
+				if(sprite.Position.X < spawnX + moveDist)
 				{
-					case DirState.Right:
-						sprite.Position = new Vector2(sprite.Position.X+moveSpeed, sprite.Position.Y);
-					break;
-					
-					case DirState.Left:
-						sprite.Position = new Vector2(sprite.Position.X-moveSpeed, sprite.Position.Y);
-					break;
+					sprite.Position = new Vector2(sprite.Position.X + moveSpeed, sprite.Position.Y);
 				}
-				weakEnemyMovement();
+				else
+				{
+					moveSwitch = !moveSwitch;
+				}
 			}
 			else
 			{
-				switch(dirState)
+				if(sprite.Position.X > spawnX)
 				{
-					case DirState.Right:
-						sprite.Position = new Vector2(sprite.Position.X+RmoveSpeed, sprite.Position.Y);
-					break;
-					
-					case DirState.Left:
-						sprite.Position = new Vector2(sprite.Position.X-RmoveSpeed, sprite.Position.Y);
-					break;
+					sprite.Position = new Vector2(sprite.Position.X - moveSpeed, sprite.Position.Y);
 				}
-				strongEnemyMovement(second);
+				else
+				{
+					moveSwitch = !moveSwitch;
+				}
 			}
-			
 		}
-		public void weakEnemyMovement()
+		
+		private void MoveVertical()
 		{
-			
-			if(i>100)
+			if(moveSwitch)
 			{
-				dirState = DirState.Left;
-				if(i==200)
-				i=0;
+				if(sprite.Position.Y < spawnY + moveDist)
+				{
+					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + moveSpeed);
+				}
+				else
+				{
+					moveSwitch = !moveSwitch;
+				}
 			}
 			else
-			{ 
-				dirState = DirState.Right;
-			}
-			i++;
-		}
-		public void strongEnemyMovement(bool second)
-		{
-			if(second == false)
 			{
-				if(i>50*distance)
+				if(sprite.Position.Y > spawnY)
 				{
-					dirState = DirState.Left;
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 5);
-					if(i==100*distance)
-					i=0;
+					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - moveSpeed);
 				}
 				else
-				{ 
-					dirState = DirState.Right;
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 5);
-				}
-			}else
-			{
-				if(i>50*distance)
 				{
-					dirState = DirState.Right;
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 5);
-					if(i==100*distance)
-					i=0;
-				}
-				else
-				{ 
-					dirState = DirState.Left;
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 5);
+					moveSwitch = !moveSwitch;
 				}
 			}
-				i++;
 		}
 		
 		public Vector2 Pos()
@@ -131,11 +108,6 @@ namespace SPACE
 			return Pos;
 		}
 				
-		public Bounds2 Bbox()
-		{
-				return box;
-		}
-		
 		override public string ReturnType()
 		{
 			return "Enemy";

@@ -12,12 +12,12 @@ using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 
 namespace SPACE
 {
-	public class Coins: Entity
+	public class Box: Entity
 	{
 
-		public Coins (float _x, float _y)
+		public Box (float _x, float _y)
 		{
-			texInfo = new TextureInfo ("/Application/textures/Coin2.png");
+			texInfo = new TextureInfo ("/Application/textures/Box.png");
 			sprite = new SpriteUV (texInfo);
 			sprite.Quad.S = texInfo.TextureSizef;
 			sprite.Position = new Vector2 (_x,_y);
@@ -25,7 +25,7 @@ namespace SPACE
 		
 		override public string ReturnType()
 		{
-			return "Coin";
+			return "Box";
 		}
 		
 	}

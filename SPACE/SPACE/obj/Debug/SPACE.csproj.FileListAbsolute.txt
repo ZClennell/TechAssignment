@@ -418,3 +418,15 @@ C:\Users\Tom\Desktop\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Applicati
 C:\Users\Tom\Desktop\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\sounds\Jump.wav
 C:\Users\Tom\Desktop\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\Coin2.png
 C:\Users\Tom\Desktop\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\Coin2.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\sounds\EndLev.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\sounds\Pickup_Coin.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\sounds\Jump.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\Coin2.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\sounds\EndLev.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\sounds\Pickup_Coin.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\sounds\Jump.wav
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\Coin2.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\Box.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-unsigned\Application\textures\TinyCoin.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\Box.png
+C:\Dev\GitRepo\TechAssignment\SPACE\SPACE\bin\Debug\SPACE-signed\Application\textures\TinyCoin.png

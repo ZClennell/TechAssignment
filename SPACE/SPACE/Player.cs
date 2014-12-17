@@ -23,7 +23,6 @@ namespace SPACE
 		private const int cViewHeight = 544;
 		private const int cTileSize = 32;
 		
-		
 		private enum AnimState { Still, Left, Right };
 		private enum ActionState { Ground, Jump, Fall };
 		

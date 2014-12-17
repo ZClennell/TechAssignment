@@ -52,7 +52,8 @@
     <Compile Include="BackgroundLoader.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="ExitTile.cs" />
-    <Compile Include="Coins.cs" />
+    <Compile Include="TinyCoin.cs" />
+    <Compile Include="Box.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -101,6 +102,8 @@
     <Content Include="sounds\Pickup_Coin.wav" />
     <Content Include="sounds\Jump.wav" />
     <Content Include="textures\Coin2.png" />
+    <Content Include="textures\Box.png" />
+    <Content Include="textures\TinyCoin.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="levels\Level1.txt" />
