@@ -54,6 +54,7 @@
     <Compile Include="ExitTile.cs" />
     <Compile Include="TinyCoin.cs" />
     <Compile Include="Box.cs" />
+    <Compile Include="CoinBomb.cs" />
   </ItemGroup>
   <ItemGroup>
     <ShaderProgram Include="shaders\Simple.fcg" />
@@ -70,7 +71,6 @@
     <Folder Include="sounds\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="textures\MenuScreen.png" />
     <Content Include="textures\Spacebro.png" />
     <Content Include="textures\Spacebro2.png" />
     <Content Include="textures\SpacebroFront.png" />
@@ -93,17 +93,14 @@
     <Content Include="textures\Lego.png" />
     <Content Include="textures\wavey.png" />
     <Content Include="textures\Exit.png" />
-    <Content Include="textures\Spikes2.jpg" />
-    <Content Include="textures\Enemy1.png" />
-    <Content Include="textures\Enemy2.png" />
     <Content Include="textures\Enemy3.png" />
     <Content Include="textures\Enemy4.png" />
     <Content Include="sounds\EndLev.wav" />
     <Content Include="sounds\Pickup_Coin.wav" />
     <Content Include="sounds\Jump.wav" />
-    <Content Include="textures\Coin2.png" />
     <Content Include="textures\Box.png" />
     <Content Include="textures\TinyCoin.png" />
+    <Content Include="textures\BouncyBomb.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="levels\Level1.txt" />

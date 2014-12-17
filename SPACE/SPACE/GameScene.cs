@@ -82,9 +82,25 @@ namespace SPACE
 					if(entity.ReturnType().Equals("Player"))
 					{
 						CheckEntityCollisions(entity);
+						if(levelNum > 3)
+						{
+							Random rng = new Random();
+							if(rng.Next (100) > 95)
+							{
+								SpawnCoinBombs (new Vector2(entity.Sprite.Position.X, entity.Sprite.Position.Y), 1);
+							}
+						}
 					}
 					
 					entity.Update (deltaTime, currentLevel);
+					
+					if(entity.ReturnType().Equals ("Bomb"))
+					{
+						SpawnCoins (new Vector2(entity.Sprite.Position.X, entity.Sprite.Position.Y), 12);
+						
+						this.RemoveChild(entity.Sprite,true);
+						entityList.Remove(entity);
+					}
 				}
 				
 				if(InputHandler.KeyPressed (InputHandler.Key.Enter))
@@ -187,7 +203,7 @@ namespace SPACE
 							coinSound.Play();
 						}
 						
-						SpawnCoins (new Vector2(entity2.Sprite.Position.X, entity2.Sprite.Position.Y), 12);
+						SpawnCoinBombs (new Vector2(entity2.Sprite.Position.X, entity2.Sprite.Position.Y), 5);
 					}
 				}
 			}
@@ -203,6 +219,21 @@ namespace SPACE
 				float yOffset = rng.Next(8);
 				
 				TinyCoin coin = new TinyCoin(_position.X+xOffset, _position.Y+yOffset);
+				entityList.Add (coin);
+				this.AddChild (coin.Sprite);
+			}
+		}
+		
+		private void SpawnCoinBombs(Vector2 _position, int _amount)
+		{
+			Random rng = new Random();
+			
+			for(int a = 0; a < _amount; a++)
+			{
+				float xOffset = rng.Next(8);
+				float yOffset = rng.Next(8);
+				
+				CoinBomb coin = new CoinBomb(_position.X+xOffset, _position.Y+yOffset);
 				entityList.Add (coin);
 				this.AddChild (coin.Sprite);
 			}

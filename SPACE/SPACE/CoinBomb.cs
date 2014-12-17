@@ -14,20 +14,24 @@ using Sce.PlayStation.HighLevel.GameEngine2D.Base;
 
 namespace SPACE
 {
-	public class TinyCoin : Entity
+	public class CoinBomb: Entity
 	{
 		float xSpeed, ySpeed;
-		float gravity = 0.2f;
-		float maxSpeed = 8.0f;
+		float gravity = 0.1f;
+		float maxSpeed = 6.0f;
 		float bounciness = 0.8f;
 		float falloff = 0.995f;
 		
+		public int bombTimer = 60;
+		
 		Vector2 hitBox = new Vector2(8.0f, 8.0f);
 		Vector2 hitBoxOffset = new Vector2(0.0f, 0.0f);
+		
+		String returnType = "";
 
-		public TinyCoin (float _x, float _y)
+		public CoinBomb (float _x, float _y)
 		{
-			texInfo = new TextureInfo ("/Application/textures/TinyCoin.png");
+			texInfo = new TextureInfo ("/Application/textures/BouncyBomb.png");
 			sprite = new SpriteUV (texInfo);
 			
 			sprite.Quad.S = texInfo.TextureSizef;
@@ -36,10 +40,18 @@ namespace SPACE
 			Random rng = new Random((int)(sprite.Position.X + sprite.Position.Y));
 			xSpeed = rng.Next ((int)(0-maxSpeed), (int)maxSpeed);
 			ySpeed = rng.Next ((int)(0-maxSpeed), (int)maxSpeed);
+			
+			bombTimer += rng.Next (120);
 		}
 		
 		override public void Update(float deltaTime, int[,] levelData)
 		{
+			bombTimer --;
+			if(bombTimer <= 0)
+			{
+				returnType = "Bomb";
+			}
+			
 			xSpeed *= falloff;
 			ySpeed *= falloff;
 			
@@ -69,7 +81,7 @@ namespace SPACE
 			//Ground Collision
 			if(CollisionHandler.PointCollision(_levelData, bottomLeft))
 			{
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y+4);
+				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y+2);
 				ySpeed *= -bounciness;
 			}
 			
@@ -96,7 +108,7 @@ namespace SPACE
 		}
 		override public string ReturnType()
 		{
-			return "Coin";
+			return returnType;
 		}
 		
 	}
